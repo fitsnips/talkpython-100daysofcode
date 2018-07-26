@@ -5,7 +5,7 @@ from time import sleep
 
 def timeloop(delta):
     start_time = datetime.today()
-    delta_time = timedelta(minutes=delta)
+    delta_time = timedelta(seconds=delta)
     target_time = start_time + delta_time
 
 
@@ -14,7 +14,7 @@ def timeloop(delta):
         #print("Current minute {} ".format(datetime.today()))
         #print("Target minute {}".format(target_time))
         print("*",end='')
-        sleep(60)
+        sleep(1)
 
 
     print()
