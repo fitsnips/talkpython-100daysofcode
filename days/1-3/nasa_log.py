@@ -1,6 +1,6 @@
 from datetime import datetime
 import os
-
+from collections import Counter
 
 def read_logfile():
     logfile = os.path.join('.', 'sample_data','sample.log')
@@ -30,6 +30,12 @@ def convert_to_datetime(entry):
 
     return datetime.strptime(event_splite,timeformat)
 
+def drop_seconds(entries):
+    drop_format = '%Y-%d-%m %H:%M'
+
+
+    return processed_matches
+
 
 def count_per_minute(matches):
     '''TODO
@@ -38,13 +44,7 @@ def count_per_minute(matches):
     :return:
     '''
 
-    #alltimestamps = matches
-    #count = []
-
-    #for time in matches:
-    #    for secondtime in alltimestamps:
-    #        if time.minute == secondtime.minute:
-    #            count[time.minute] += 1
+    return Counter(matches)
 
 
     pass
@@ -53,7 +53,8 @@ if __name__ == '__main__':
     logentries = read_logfile()
     user_search_entry = get_search_string()
     matched_entries = find_matches(logentries,user_search_entry)
-    count_per_minute(matched_entries)
-    diplay_final_data(matched_entries)
+    processed_matches = drop_seconds(matched_entries)
+    entry_count = count_per_minute(processed_matches)
+    diplay_final_data(entry_count)
 
 
