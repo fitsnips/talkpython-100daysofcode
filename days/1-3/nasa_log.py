@@ -19,8 +19,9 @@ def find_matches(log_lines, search_string):
     return search_patern_entry_times
 
 def diplay_final_data(matches):
-    for match in matches:
-        print(match)
+    for entry in matches:
+        for key,value in entry:
+            print("Time: {} : Count: {}".format(key,value))
 
 
 
@@ -30,11 +31,10 @@ def convert_to_datetime(entry):
 
     return datetime.strptime(event_splite,timeformat)
 
-def drop_seconds(entries):
+def drop_seconds(entry):
     drop_format = '%Y-%d-%m %H:%M'
-
-
-    return processed_matches
+    entry_formated = datetime.strftime(entry, drop_format)
+    return entry_formated
 
 
 def count_per_minute(matches):
@@ -44,7 +44,11 @@ def count_per_minute(matches):
     :return:
     '''
 
-    return Counter(matches)
+    formated_output = [ drop_seconds(match) for match in matches]
+
+    entry_count = Counter(sorted(formated_output))
+    return entry_count
+
 
 
     pass
@@ -53,8 +57,9 @@ if __name__ == '__main__':
     logentries = read_logfile()
     user_search_entry = get_search_string()
     matched_entries = find_matches(logentries,user_search_entry)
-    processed_matches = drop_seconds(matched_entries)
-    entry_count = count_per_minute(processed_matches)
+    entry_count = count_per_minute(matched_entries)
+    #print(type(entry_count))
+    #print(entry_count)
     diplay_final_data(entry_count)
 
 
